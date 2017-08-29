@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
 	public GameObject enemyPrefab;
-	private float width = 8.0f;
-	private float height = 4.0f;
+	private float width = 8.2f;
+	private float height = 4.2f;
 	private float xMin;
 	private float xMax;
 	private float speed = 2.0f;

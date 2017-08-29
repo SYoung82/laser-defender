@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	public float speed = 15.0f;
+	public GameObject laserPrefab;
+	private float laserSpeed = 5.0f;
+	private float firingRate = 0.2f;
+	private float speed = 5.0f;
 	private float padding = 0.5f;
 	private float xMin;
 	private float xMax;
@@ -17,13 +20,27 @@ public class PlayerController : MonoBehaviour {
 		xMax = rightmost.x - padding;
 	}
 
+	void Fire() {
+		GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+		laser.GetComponent<Rigidbody2D>().velocity = new Vector3(0, laserSpeed, 0);
+	}
+
 	void Update () {
+		if(Input.GetKeyDown(KeyCode.Space)) {
+			InvokeRepeating("Fire", 0.0000001f, firingRate);
+		}
+
+		if(Input.GetKeyUp(KeyCode.Space)) {
+			CancelInvoke("Fire");
+		}
+
 		if(Input.GetKey(KeyCode.LeftArrow)) {
 			transform.position += Vector3.left * speed * Time.deltaTime;
 		}
 		else if(Input.GetKey(KeyCode.RightArrow)) {
 			transform.position += Vector3.right * speed * Time.deltaTime;
 		}
+
 
 		// Restrict the player to the gamespace
 		float newX = Mathf.Clamp(transform.position.x, xMin, xMax);
