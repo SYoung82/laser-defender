@@ -5,10 +5,11 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
 	public GameObject enemyPrefab;
-	// Use this for initialization
+
 	void Start () {
-		GameObject enemy = Instantiate(enemyPrefab, new Vector3(0,0,0), Quaternion.identity);
-		enemy.transform.parent = transform;
+		foreach(Transform child in transform) {
+			Instantiate(enemyPrefab, child.transform.position, Quaternion.identity);
+		}
 	}
 	
 	// Update is called once per frame
