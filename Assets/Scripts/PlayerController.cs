@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public GameObject laserPrefab;
+	private float health = 300f;
 	private float laserSpeed = 5.0f;
 	private float firingRate = 0.2f;
 	private float speed = 5.0f;
@@ -21,7 +22,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Fire() {
-		GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+		Vector3 startPosition = transform.position + new Vector3(0f, 1f, 0f);
+		GameObject laser = Instantiate(laserPrefab, startPosition, Quaternion.identity) as GameObject;
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector3(0, laserSpeed, 0);
 	}
 
@@ -45,5 +47,16 @@ public class PlayerController : MonoBehaviour {
 		// Restrict the player to the gamespace
 		float newX = Mathf.Clamp(transform.position.x, xMin, xMax);
 		transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+	}
+
+	void OnTriggerEnter2D(Collider2D collider) {
+		Projectile missile = collider.gameObject.GetComponent<Projectile>();
+		if(missile) {
+			missile.Hit();
+			health -= missile.GetDamage();
+			if(health <= 0) {
+				Destroy(gameObject);
+			}
+		}
 	}
 }
