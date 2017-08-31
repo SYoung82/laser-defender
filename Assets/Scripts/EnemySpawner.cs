@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour {
 	private float spawnDelay = 0.5f;
 
 	void Start () {
-		SpawnUntilFull();
+		SpawnEnemies();
 
 		float distance = transform.position.z - Camera.main.transform.position.z;
 		Vector2 leftmost = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance));
