@@ -10,9 +10,10 @@ public class EnemySpawner : MonoBehaviour {
 	private float xMin;
 	private float xMax;
 	private float speed = 2.0f;
+	private float spawnDelay = 0.5f;
 
 	void Start () {
-		SpawnEnemies();
+		SpawnUntilFull();
 
 		float distance = transform.position.z - Camera.main.transform.position.z;
 		Vector2 leftmost = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance));
@@ -36,7 +37,7 @@ public class EnemySpawner : MonoBehaviour {
 		transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 
 		if(AllMembersDead()) {
-			SpawnEnemies();
+			SpawnUntilFull();
 		}
 	}
 
@@ -47,12 +48,33 @@ public class EnemySpawner : MonoBehaviour {
 		}
 	}
 
+	void SpawnUntilFull() {
+		Transform freePosition = NextFreePosition();
+		if(freePosition) {
+			GameObject enemy = Instantiate(enemyPrefab, freePosition.position, Quaternion.identity);
+			enemy.transform.parent = freePosition;
+			Invoke("SpawnUntilFull", spawnDelay);
+		}
+		
+	}
+
+	Transform NextFreePosition() {
+		foreach(Transform childPositionGameObject in transform) {
+			if(childPositionGameObject.childCount == 0) {
+				return childPositionGameObject;
+			}
+		}
+
+		return null;
+	}
+
 	bool AllMembersDead() {
 		foreach(Transform childPositionGameObject in transform) {
 			if(childPositionGameObject.childCount > 0) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
