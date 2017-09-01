@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour {
 
 	public GameObject projectile;
+	public AudioClip deathSound;
 	private ScoreKeeper scoreKeeper;
 	private float health = 150.0f;
 	private float projectileSpeed = 5.0f;
@@ -34,6 +35,7 @@ public class EnemyBehavior : MonoBehaviour {
 			missile.Hit();
 			health -= missile.GetDamage();
 			if(health <= 0) {
+				AudioSource.PlayClipAtPoint(deathSound, transform.position);
 				scoreKeeper.Score(scoreValue);
 				Destroy(gameObject);
 			}
