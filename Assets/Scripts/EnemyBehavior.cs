@@ -35,10 +35,14 @@ public class EnemyBehavior : MonoBehaviour {
 			missile.Hit();
 			health -= missile.GetDamage();
 			if(health <= 0) {
-				AudioSource.PlayClipAtPoint(deathSound, transform.position);
-				scoreKeeper.Score(scoreValue);
-				Destroy(gameObject);
+				Die();
 			}
 		}
+	}
+
+	void Die() {
+		AudioSource.PlayClipAtPoint(deathSound, transform.position);
+		scoreKeeper.Score(scoreValue);
+		Destroy(gameObject);
 	}
 }
