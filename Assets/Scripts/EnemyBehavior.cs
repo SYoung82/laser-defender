@@ -5,9 +5,15 @@ using UnityEngine;
 public class EnemyBehavior : MonoBehaviour {
 
 	public GameObject projectile;
+	private ScoreKeeper scoreKeeper;
 	private float health = 150.0f;
 	private float projectileSpeed = 5.0f;
 	private float shotsPerSecond = 0.5f;
+	private int scoreValue = 100;
+
+	void Start() {
+		scoreKeeper = GameObject.Find("Score").GetComponent<ScoreKeeper>();
+	}
 
 	void Update() {
 		float probability = shotsPerSecond * Time.deltaTime;
@@ -28,6 +34,7 @@ public class EnemyBehavior : MonoBehaviour {
 			missile.Hit();
 			health -= missile.GetDamage();
 			if(health <= 0) {
+				scoreKeeper.Score(scoreValue);
 				Destroy(gameObject);
 			}
 		}
