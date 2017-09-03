@@ -24,8 +24,7 @@ public class EnemyBehavior : MonoBehaviour {
 	}
 
 	void Fire() {
-		Vector3 startPosition = transform.position + new Vector3(0f, -1f, 0f);
-		GameObject missile = Instantiate(projectile, startPosition, Quaternion.identity);
+		GameObject missile = Instantiate(projectile, transform.position, Quaternion.identity);
 		missile.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, -projectileSpeed);
 	}
 

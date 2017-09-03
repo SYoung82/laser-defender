@@ -22,8 +22,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Fire() {
-		Vector3 startPosition = transform.position + new Vector3(0f, 1f, 0f);
-		GameObject laser = Instantiate(laserPrefab, startPosition, Quaternion.identity) as GameObject;
+		GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
 		laser.GetComponent<Rigidbody2D>().velocity = new Vector3(0, laserSpeed, 0);
 	}
 
