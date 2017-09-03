@@ -48,13 +48,19 @@ public class PlayerController : MonoBehaviour {
 		transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 	}
 
+	void Die() {
+		LevelManager levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+		levelManager.LoadLevel("Win Screen");
+		Destroy(gameObject);
+	}
+
 	void OnTriggerEnter2D(Collider2D collider) {
 		Projectile missile = collider.gameObject.GetComponent<Projectile>();
 		if(missile) {
 			missile.Hit();
 			health -= missile.GetDamage();
 			if(health <= 0) {
-				Destroy(gameObject);
+				Die();
 			}
 		}
 	}
